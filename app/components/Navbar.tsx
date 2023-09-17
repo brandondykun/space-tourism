@@ -1,0 +1,158 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import logo from "../../public/shared/logo.svg";
+import hamburger from "../../public/shared/icon-hamburger.svg";
+import close from "../../public/shared/icon-close.svg";
+
+const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  const [openClass, setOpenClass] = useState(false);
+
+  const mobileMenuRef = useRef<HTMLDivElement>(null!);
+
+  const currentRoute = usePathname();
+
+  const openMenu = () => {
+    setOpen(true);
+    setTimeout(() => {
+      setOpenClass(true);
+    }, 100);
+  };
+
+  const closeMenu = () => {
+    setOpenClass(false);
+    setTimeout(() => {
+      setOpen(false);
+    }, 300);
+  };
+
+  const closeMenuOnOutsideClick = (e: MouseEvent) => {
+    if (
+      mobileMenuRef.current &&
+      open &&
+      !mobileMenuRef.current.contains(e.target as Node)
+    ) {
+      closeMenu();
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      document.addEventListener("mousedown", closeMenuOnOutsideClick);
+    }
+    return () => {
+      document.removeEventListener("mousedown", closeMenuOnOutsideClick);
+    };
+  }, [open]);
+
+  return (
+    <div className="flex flex-row items-center absolute top-0 right-0 left-0 justify-between lg:top-8 p-6 md:p-0">
+      <Image
+        src={logo}
+        alt="Logo"
+        className="h-10 w-10 md:h-12 md:w-12 md:ml-8 lg:ml-16"
+      />
+      <nav className=" text-white bg-black-transparent backdrop-blur-xl font-barlow md:block hidden px-12 lg:px-32 h-24">
+        <ul className="md:flex flex-row gap-10 items-center h-full">
+          <li>
+            <Link href="/" className="h-full block py-6">
+              <span className="font-bold mr-2">00</span>HOME
+            </Link>
+          </li>
+
+          <li>
+            <Link href="/destination" className="h-full block py-6">
+              <span className="font-bold mr-2">01</span>DESTINATION
+            </Link>
+          </li>
+          <li>
+            <Link href="/crew" className="h-full block py-6">
+              <span className="font-bold mr-2">02</span>CREW
+            </Link>
+          </li>
+          <li>
+            <Link href="/technology" className="h-full block py-6">
+              <span className="font-bold mr-2">03</span>TECHNOLOGY
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <button onClick={openMenu} className="md:hidden">
+        <Image src={hamburger} alt="menu" className="h-[21px] w-6" />
+      </button>
+      <div
+        className={`${
+          open ? "" : "hidden"
+        } fixed top-0 bottom-0 w-60 bg-black-transparent backdrop-blur-xl text-white md:hidden transition-all duration-500 ${
+          openClass ? "right-0" : "-right-64"
+        }`}
+        ref={mobileMenuRef}
+      >
+        <div className="flex justify-end pr-6 pt-8">
+          <button onClick={closeMenu}>
+            <Image src={close} alt="Close Menu" />
+          </button>
+        </div>
+        <nav className="font-barlow mt-6">
+          <ul className="flex flex-col gap-2">
+            <li>
+              <Link
+                href="/"
+                className={`h-full block py-1 my-1 px-6 font-extralight tracking-widest ${
+                  currentRoute === "/"
+                    ? "border-r-4 border-solid border-light-blue"
+                    : ""
+                }`}
+              >
+                <span className="font-bold mr-2">00</span>HOME
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href="/destination"
+                className={`h-full block py-1 my-1 px-6 font-extralight tracking-widest ${
+                  currentRoute === "/destination"
+                    ? "border-r-4 border-solid border-light-blue"
+                    : ""
+                }`}
+              >
+                <span className="font-bold mr-2">01</span>DESTINATION
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/crew"
+                className={`h-full block py-1 my-1 px-6 font-extralight tracking-widest ${
+                  currentRoute === "/crew"
+                    ? "border-r-4 border-solid border-light-blue"
+                    : ""
+                }`}
+              >
+                <span className="font-bold mr-2">02</span>CREW
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/technology"
+                className={`h-full block py-1 my-1 px-6 font-extralight tracking-widest ${
+                  currentRoute === "/technology"
+                    ? "border-r-4 border-solid border-light-blue"
+                    : ""
+                }`}
+              >
+                <span className="font-bold mr-2">03</span>TECHNOLOGY
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
