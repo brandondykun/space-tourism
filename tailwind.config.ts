@@ -37,6 +37,7 @@ const config: Config = {
         "light-blue": "#D0D6F9",
         white: "#FFFFFF",
         "black-transparent": "#ffffff0a",
+        "dark-grey": "#383B4B",
       },
       fontFamily: {
         barlow: ["var(--font-barlow)", ...fontFamily.sans],
