@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${bellfair.variable} ${barlow.variable}`}>
+      <body className={`${bellfair.variable} ${barlow.variable} bg-dark-blue`}>
         <Navbar />
         {children}
       </body>

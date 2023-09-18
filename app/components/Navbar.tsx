@@ -49,35 +49,57 @@ const Navbar = () => {
     };
   }, [open]);
 
+  type NavLinkProps = {
+    text: string;
+    num: string;
+    route: string;
+  };
+  const NavLink = ({ text, num, route }: NavLinkProps) => {
+    const currentRoute = usePathname();
+
+    return (
+      <Link
+        href={route}
+        className={`h-full py-6 border-t-[3px] flex flex-col items-center justify-center border-b-[3px] border-solid border-transparent ${
+          currentRoute !== route
+            ? "hover:border-b-white hover:border-opacity-50"
+            : ""
+        } ${
+          currentRoute === route
+            ? "border-b-[3px] border-solid border-b-white"
+            : ""
+        }`}
+      >
+        <div>
+          <span className="font-bold mr-2 hidden lg:inline">{num}</span>
+          {text}
+        </div>
+      </Link>
+    );
+  };
+
   return (
     <div className="flex flex-row items-center absolute top-0 right-0 left-0 justify-between lg:top-8 p-6 md:p-0">
       <Image
         src={logo}
         alt="Logo"
-        className="h-10 w-10 md:h-12 md:w-12 md:ml-8 lg:ml-16"
+        className="h-10 w-10 md:h-12 md:w-12 md:ml-8 lg:mx-16"
       />
+      <div className="hidden lg:block h-[1px] bg-white opacity-25 flex-1 -mr-10 z-10"></div>
       <nav className=" text-white bg-black-transparent backdrop-blur-xl font-barlow md:block hidden px-12 lg:px-32 h-24">
-        <ul className="md:flex flex-row gap-10 items-center h-full">
-          <li>
-            <Link href="/" className="h-full block py-6">
-              <span className="font-bold mr-2">00</span>HOME
-            </Link>
+        <ul className="md:flex flex-row gap-14 items-center h-full">
+          <li className="h-full">
+            <NavLink text="HOME" route="/" num="00" />
           </li>
 
-          <li>
-            <Link href="/destination" className="h-full block py-6">
-              <span className="font-bold mr-2">01</span>DESTINATION
-            </Link>
+          <li className="h-full">
+            <NavLink text="DESTINATION" route="/destination" num="01" />
           </li>
-          <li>
-            <Link href="/crew" className="h-full block py-6">
-              <span className="font-bold mr-2">02</span>CREW
-            </Link>
+          <li className="h-full">
+            <NavLink text="CREW" route="/crew" num="02" />
           </li>
-          <li>
-            <Link href="/technology" className="h-full block py-6">
-              <span className="font-bold mr-2">03</span>TECHNOLOGY
-            </Link>
+          <li className="h-full">
+            <NavLink text="TECHNOLOGY" route="/technology" num="03" />
           </li>
         </ul>
       </nav>
