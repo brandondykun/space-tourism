@@ -10,6 +10,7 @@ export type DestinationType = {
 };
 
 export type CrewType = {
+  id: number;
   name: string;
   images: {
     png: string;
